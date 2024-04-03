@@ -3,9 +3,6 @@ import React, { useContext } from "react";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 import "./Main.css";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,6 +19,7 @@ const Main = () => {
     resultData,
     setInput,
     input,
+    allResultData
   } = useContext(Context);
   const clickCard = (e) => {
     const card = e.currentTarget;
@@ -73,21 +71,9 @@ const Main = () => {
               <img src={assets.robot} alt="" />
               {loading ? (
                 <div className="loader"></div>
-              ) : !codeData ? (
+              ) :
                 <p dangerouslySetInnerHTML={{ __html: resultData }}></p>
-              ) : (
-                <CopyToClipboard
-                  text={codeData.replace(/``` (.*)\n/, "").replace(/```/, "")}
-                  onCopy={() => handleCopy(codeData)}
-                >
-                  <SyntaxHighlighter
-                    language={codeData.match(/``` (.*)\n/)[1]}
-                    style={docco}
-                  >
-                    {codeData.replace(/``` (.*)\n/, "").replace(/```/, "")}
-                  </SyntaxHighlighter>
-                </CopyToClipboard>
-              )}
+              }
             </div>
           </div>
         )}

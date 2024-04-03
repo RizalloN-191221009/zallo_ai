@@ -10,10 +10,9 @@ const ContextProvider = (props) => {
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
-  const [codeData, setCodeData] = useState("");
   const delayText = (index, nextWord) => {
     setTimeout(function () {
-      setResultData((prev) => prev + nextWord);
+      setResultData((prev) => [prev + nextWord]);
     }, 25 * index);
   };
 
@@ -34,23 +33,7 @@ const ContextProvider = (props) => {
       setRecentPrompt(input);
       response = await runChat(input);
     }
-    let codeResponse = ''; // Initialize codeResponse
-
-  // Check if response contains code block
-    if (response.includes('```')) {
-      // Extract code block and language identifier
-      const codeBlockMatch = response.match(/```([\s\S]*?)\n([\s\S]*?)\n```/);
-      const language = codeBlockMatch ? codeBlockMatch[1] : 'javascript';
-      const codeValue = codeBlockMatch ? codeBlockMatch[2] : '';
-
-      // Set codeResponse with code block and syntax highlighting
-      setCodeData(`\`\`\` ${language}\n${codeValue}\n\`\`\``);
-    } else {
-      // Handle response without code block
-      codeResponse = response;
-    }
-
-    let responseArray = codeResponse.split("**");
+    let responseArray = response.split("**");
     let newResponse = "";
     for (let i = 0; i < responseArray.length; i++) {
       if (i === 0 || i % 2 !== 1) {
@@ -82,7 +65,6 @@ const ContextProvider = (props) => {
     showResults,
     loading,
     resultData,
-    codeData,
     newChat,
   };
 
