@@ -4,7 +4,7 @@ import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 import "./Main.css";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { monokaiSublime } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -59,7 +59,7 @@ const Main = () => {
                 <img src={assets.message_icon} alt="" />
               </div>
               <div className="card" onClick={clickCard}>
-                <p>Improve the readibility of the following code</p>
+                <p>Write hello world in 6 programming languages</p>
                 <img src={assets.code_icon} alt="" />
               </div>
             </div>
@@ -83,7 +83,7 @@ const Main = () => {
                     <div key={index}>
                       <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
                       <CopyToClipboard key={index} text={item.code} onCopy={() => handleCopy(codeData)}>
-                          <SyntaxHighlighter language={item.language} style={a11yDark}>
+                          <SyntaxHighlighter language={item.language} style={monokaiSublime}>
                             {item.code}
                           </SyntaxHighlighter>
                         </CopyToClipboard>
@@ -114,8 +114,8 @@ const Main = () => {
               }}
             />
             <div>
-              <img src={assets.gallery_icon} alt="" />
-              <img src={assets.mic_icon} alt="" />
+              {/* <img src={assets.gallery_icon} alt="" />
+              <img src={assets.mic_icon} alt="" /> */}
               {input ? (
                 <img
                   onClick={() => {

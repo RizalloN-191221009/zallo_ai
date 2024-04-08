@@ -3,6 +3,7 @@
   min-height: 100%;
   padding-bottom: 15vh;
   position: relative;
+  background-color: #2E3E64;
 }
 
 .main .nav {
@@ -11,12 +12,18 @@
   justify-content: space-between;
   font-size: 22px;
   padding: 20px;
-  color: #585858;
-}
-
-.main .nav img {
-  width: 40px;
-  border-radius: 50%;
+  color: #D1C19B;
+  img{
+    width: 40px;
+    border-radius: 50%;
+  }
+  p{
+    cursor: pointer;
+    &:hover{
+      color: #9BABD1;
+      transition: 0.3s ease-in-out;
+    }
+  }
 }
 
 .main-container {
@@ -30,11 +37,13 @@
   font-size: 56px;
   color: #c4c7c5;
   padding: 20px;
-  background: -webkit-linear-gradient(16deg, #4b90ff , #c9c2ff);
+  background: -webkit-linear-gradient(16deg, #DACDAF , #C1B496);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   span {
-    background: -webkit-linear-gradient(16deg, #ff5546 , #f5d480);
+    background: -webkit-linear-gradient(16deg, #DACDAF , #C1B496);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -47,10 +56,11 @@
 }
 
 .main .card {
-  height: 200px;
+  height: 160px;
   padding: 15px;
-  background-color: #f0f4f9;
-  border-radius: 10px;
+  width: 200px;
+  background-color: #D1C19B;
+  border-radius: 15px;
   position: relative;
   cursor: pointer;
   img {
@@ -63,11 +73,12 @@
     right: 10px;
   }
   p {
-    color: #585858;
+    color: #2E3E64;
     font-size: 17px;
   }
   &:hover {
-    background-color: #dfe4ea;
+    background-color: #9BABD1;
+    transition: 0.3s ease-in-out;
   }
 }
 
@@ -80,11 +91,13 @@
   margin: auto;
 }
 .search-box {
+  margin-left: 15px;
+  margin-right: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  background-color: #f0f4f9;
+  background-color: #D1C19B;
   padding: 10px 20px;
   border-radius: 50px;
   img {
@@ -92,6 +105,8 @@
     cursor: pointer;
   }
   input {
+    color: #2E3E64;
+    display: flex;
     flex: 1;
     background: transparent;
     border: none;
@@ -111,9 +126,11 @@
   margin: 15px auto;
   text-align: center;
   font-weight: 300;
+  color: #D1C19B;
 }
 
 .result {
+  color: #D1C19B;
   padding: 0px 5%;
   max-height: 70vh;
   overflow-y: scroll;

@@ -3,7 +3,7 @@
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #f0f4f9;
+    background-color: #D1C19B;
     padding: 25px 15px;
 }
 
@@ -23,11 +23,15 @@
     align-items: center;
     gap: 10px;
     padding: 10px 15px;
-    background-color: #e6eaf1;
+    background-color: #2E3E64;
     border-radius: 50px;
     font-size: 14px;
-    color: grey;
+    color: #EDE6D7;
     cursor: pointer;
+    &:hover{
+        background-color: #1C253C;
+        transition: 0.3s ease-in-out;
+    }
 }
 
 .sidebar .recent {
@@ -37,6 +41,7 @@
 }
 
 .sidebar .recent-title{
+    color: #2E3E64;
     margin-top: 30px;
     margin-bottom: 20px;
 }
@@ -48,10 +53,10 @@
     padding: 10px;
     padding-right: 40px;
     border-radius: 50px;
-    color: #282828;
+    color: #2E3E64;
     cursor:pointer;
     &:hover{
-        background-color: #e2e6eb;
+        background-color: #9BABD1;
         transition: 0.3s ease-in-out;
     }
 }
@@ -62,6 +67,7 @@
 }
 
 .sidebar .bottom-item{
+    color: #2E3E64;
     padding-right: 10px;
     cursor: pointer;
 }

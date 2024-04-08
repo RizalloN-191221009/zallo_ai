@@ -24,6 +24,7 @@ const ContextProvider = (props) => {
   const onSent = async (prompt) => {
     setcodeData([]);
     setResultData("");
+    setDesc([]);
     setLoading(true);
     setShowResults(true);
     let response = "";
