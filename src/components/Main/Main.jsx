@@ -14,6 +14,7 @@ const Main = () => {
     toast.success("Code copied to clipboard!");
   };
   const {
+    newChat,
     onSent,
     codeData,
     recentPrompt,
@@ -32,7 +33,7 @@ const Main = () => {
   return (
     <div className="main">
       <div className="nav">
-        <p>Zallo</p>
+        <p onClick={()=>newChat()}>Zallo</p>
         <img src={assets.user_icon} alt="" />
       </div>
       <div className="main-container">
