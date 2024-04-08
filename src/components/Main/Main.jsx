@@ -3,6 +3,9 @@ import React, { useContext } from "react";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 import "./Main.css";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,10 +19,10 @@ const Main = () => {
     recentPrompt,
     showResults,
     loading,
+    codeDesc,
     resultData,
     setInput,
     input,
-    allResultData
   } = useContext(Context);
   const clickCard = (e) => {
     const card = e.currentTarget;
@@ -33,7 +36,7 @@ const Main = () => {
         <img src={assets.user_icon} alt="" />
       </div>
       <div className="main-container">
-      <ToastContainer />
+        <ToastContainer />
         {!showResults ? (
           <>
             <div className="greet">
@@ -68,12 +71,29 @@ const Main = () => {
               <p>{recentPrompt}</p>
             </div>
             <div className="result-data">
+              <div className="img">
               <img src={assets.robot} alt="" />
+              </div>
+              <div className="result-here">
               {loading ? (
                 <div className="loader"></div>
-              ) :
+              ) : codeData.length > 0 ? (
+                <>
+                  {codeDesc.map((item, index) => (
+                    <div key={index}>
+                      <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
+                      <CopyToClipboard key={index} text={item.code} onCopy={() => handleCopy(codeData)}>
+                          <SyntaxHighlighter language={item.language} style={a11yDark}>
+                            {item.code}
+                          </SyntaxHighlighter>
+                        </CopyToClipboard>
+                    </div>
+                  ))}
+                </>
+              ) : (
                 <p dangerouslySetInnerHTML={{ __html: resultData }}></p>
-              }
+              )}
+              </div>
             </div>
           </div>
         )}

@@ -10,17 +10,19 @@ const ContextProvider = (props) => {
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
+  const [codeData, setcodeData] = useState([]);
+  const [codeDesc, setDesc] = useState([]);
   const delayText = (index, nextWord) => {
     setTimeout(function () {
       setResultData((prev) => [prev + nextWord]);
     }, 25 * index);
   };
-
   const newChat = () => {
     setLoading(false);
     setShowResults(false);
   };
   const onSent = async (prompt) => {
+    setcodeData([]);
     setResultData("");
     setLoading(true);
     setShowResults(true);
@@ -42,10 +44,26 @@ const ContextProvider = (props) => {
         newResponse += "<b>" + responseArray[i] + "</b>";
       }
     }
-    
-    let newResponses = newResponse.split("*").join("</br>");
+    // Matches CodeBlock work
+    if (newResponse.includes("```")) {
+      const regex = /```\w+\n(.*?\n)```/gs;
+      const matches = [...newResponse.matchAll(regex)];
+      const codeBlocks = matches
+        .map((match) => match[1])
+        .filter((item) => item !== "");
+      setcodeData(codeBlocks);
+      let newResponses = newResponse.split("*").join("<br/>");
+      const descriptions = extractDescriptions(newResponses, codeBlocks);
+      const codewithDesc = codeBlocks.map((code, index) => ({
+        code,
+        description: descriptions[index].description,
+        language: descriptions[index].language,
+      }));
+      setDesc(codewithDesc);
+      // response.split("*").join("<br>");
+    }
+    let newResponses = newResponse.split("*").join("<br/>");
     let newResponseArray = newResponses.split(" ");
-
     for (let i = 0; i < newResponseArray.length; i++) {
       const nextWord = newResponseArray[i];
       delayText(i, nextWord + " ");
@@ -65,6 +83,8 @@ const ContextProvider = (props) => {
     showResults,
     loading,
     resultData,
+    codeDesc,
+    codeData,
     newChat,
   };
 
@@ -75,4 +95,19 @@ const ContextProvider = (props) => {
 ContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+// eslint-disable-next-line no-unused-vars
+function extractDescriptions(text, codeBlocks) {
+  const descriptions = [];
+  const regex = /(?:(.*?)\s*)?```(\w+)\n(.*?\n)```(?:\s*\((.*?)\))?/gs;
+  const matches = [...text.matchAll(regex)];
+  matches.forEach((match) => {
+    const before = match[1]?.trim();
+    const language = match[2]?.trim();
+    // const code = match[3];
+    const after = match[3]?.trim();
+    const description = before || after || ""; // Use before, after, or empty string
+    descriptions.push({ description, language });
+  });
+  return descriptions;
+}
 export default ContextProvider;

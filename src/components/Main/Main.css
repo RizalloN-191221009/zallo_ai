@@ -136,6 +136,15 @@
   align-items: start;
   gap: 20px;
   margin-bottom: 10px;
+  .img{
+    width:6.5%;;
+  }
+  .result-here{
+    width: 90%;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+  }
   p{
     font-size: 17px;
     font-weight: 300;
