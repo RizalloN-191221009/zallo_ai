@@ -66,11 +66,6 @@
     flex-direction: column;
 }
 
-.sidebar .bottom-item{
-    color: #2E3E64;
-    padding-right: 10px;
-    cursor: pointer;
-}
 @keyframes fadeIn {
     0%{
       opacity: 0;

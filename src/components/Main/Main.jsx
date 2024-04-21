@@ -10,13 +10,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Main = () => {
-  const handleCopy = (codeData) => {
+  const handleCopy = (codeDesc) => {
     toast.success("Code copied to clipboard!");
   };
   const {
     newChat,
     onSent,
-    codeData,
     recentPrompt,
     showResults,
     loading,
@@ -78,12 +77,12 @@ const Main = () => {
               <div className="result-here">
               {loading ? (
                 <div className="loader"></div>
-              ) : codeData.length > 0 ? (
+              ) : codeDesc.length > 0 ? (
                 <>
                   {codeDesc.map((item, index) => (
                     <div key={index}>
                       <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
-                      <CopyToClipboard key={index} text={item.code} onCopy={() => handleCopy(codeData)}>
+                      <CopyToClipboard key={index} text={item.code} onCopy={() => handleCopy(codeDesc)}>
                           <SyntaxHighlighter language={item.language} style={monokaiSublime}>
                             {item.code}
                           </SyntaxHighlighter>
@@ -115,8 +114,6 @@ const Main = () => {
               }}
             />
             <div>
-              {/* <img src={assets.gallery_icon} alt="" />
-              <img src={assets.mic_icon} alt="" /> */}
               {input ? (
                 <img
                   onClick={() => {

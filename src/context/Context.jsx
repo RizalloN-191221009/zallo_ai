@@ -10,8 +10,9 @@ const ContextProvider = (props) => {
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
-  const [codeData, setcodeData] = useState([]);
   const [codeDesc, setDesc] = useState([]);
+  const [conversationHistory, setConversationHistory] = useState([]);
+
   const delayText = (index, nextWord) => {
     setTimeout(function () {
       setResultData((prev) => [prev + nextWord]);
@@ -22,7 +23,6 @@ const ContextProvider = (props) => {
     setShowResults(false);
   };
   const onSent = async (prompt) => {
-    setcodeData([]);
     setResultData("");
     setDesc([]);
     setLoading(true);
@@ -47,21 +47,14 @@ const ContextProvider = (props) => {
     }
     // Matches CodeBlock work
     if (newResponse.includes("```")) {
-      const regex = /```\w+\n(.*?\n)```/gs;
-      const matches = [...newResponse.matchAll(regex)];
-      const codeBlocks = matches
-        .map((match) => match[1])
-        .filter((item) => item !== "");
-      setcodeData(codeBlocks);
       let newResponses = newResponse.split("*").join("<br/>");
-      const descriptions = extractDescriptions(newResponses, codeBlocks);
-      const codewithDesc = codeBlocks.map((code, index) => ({
-        code,
+      const descriptions = extractDescriptions(newResponses);
+      const codewithDesc = descriptions.map((_description, index) => ({
+        code: descriptions[index].code,
         description: descriptions[index].description,
         language: descriptions[index].language,
       }));
       setDesc(codewithDesc);
-      // response.split("*").join("<br>");
     }
     let newResponses = newResponse.split("*").join("<br/>");
     let newResponseArray = newResponses.split(" ");
@@ -71,6 +64,10 @@ const ContextProvider = (props) => {
     }
     setLoading(false);
     setInput("");
+    setConversationHistory((prevHistory) => [
+      ...prevHistory,
+      { prompt: recentPrompt, resultData, codeDesc },
+    ]);
   };
 
   const contextValue = {
@@ -85,8 +82,8 @@ const ContextProvider = (props) => {
     loading,
     resultData,
     codeDesc,
-    codeData,
     newChat,
+    conversationHistory,
   };
 
   return (
@@ -97,17 +94,17 @@ ContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 // eslint-disable-next-line no-unused-vars
-function extractDescriptions(text, codeBlocks) {
+function extractDescriptions(text) {
   const descriptions = [];
   const regex = /(?:(.*?)\s*)?```(\w+)\n(.*?\n)```(?:\s*\((.*?)\))?/gs;
   const matches = [...text.matchAll(regex)];
   matches.forEach((match) => {
     const before = match[1]?.trim();
     const language = match[2]?.trim();
-    // const code = match[3];
+    const code = match[3];
     const after = match[3]?.trim();
-    const description = before || after || ""; // Use before, after, or empty string
-    descriptions.push({ description, language });
+    const description = before || after || "";
+    descriptions.push({ description, language, code });
   });
   return descriptions;
 }
