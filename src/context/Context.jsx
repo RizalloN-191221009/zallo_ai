@@ -9,8 +9,8 @@ const ContextProvider = (props) => {
   const [prevPrompts, setPrevPrompts] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [resultData, setResultData] = useState([]);
-  const [codeDesc, setDesc] = useState([]);
+  const [result, setResult] = useState([]); // Combined result state
+
 
   const newChat = () => {
     setLoading(false);
@@ -20,8 +20,7 @@ const ContextProvider = (props) => {
   };
   const onSent = async (prompt) => {
     setRecentPrompt([]);
-    setResultData([]);
-    setDesc([]);
+    setResult([]);
     setLoading(true);
     setShowResults(true);
     let response = "";
@@ -46,15 +45,12 @@ const ContextProvider = (props) => {
     if (newResponse.includes("```")) {
       let newResponses = newResponse.split("*").join("<br/>");
       const descriptions = extractDescriptions(newResponses);
-      const codewithDesc = descriptions.map((_description, index) => ({
-        code: descriptions[index].code,
-        description: descriptions[index].description,
-        language: descriptions[index].language,
-      }));
-      setDesc(codewithDesc);
+      setResult(descriptions); // Set result with code and descriptions
+    }else {
+      let newResponses = newResponse.split("*").join("<br/>");
+      setResult([{ description: newResponses, language: null, code: null }]); // Set result for non-code responses
     }
-    let newResponses = newResponse.split("*").join("<br/>");
-    setResultData((data) => [...data, newResponses]);
+    
     setLoading(false);
     setInput("");
   };
@@ -69,8 +65,7 @@ const ContextProvider = (props) => {
     setInput,
     showResults,
     loading,
-    resultData,
-    codeDesc,
+    result,
     newChat
   };
 

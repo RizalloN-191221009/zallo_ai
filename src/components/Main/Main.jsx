@@ -10,8 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Main = () => {
-  
-  const handleCopy = (codeDesc) => {
+  const handleCopy = (result) => {
     toast.success("Code copied to clipboard!");
   };
   const {
@@ -20,12 +19,11 @@ const Main = () => {
     recentPrompt,
     showResults,
     loading,
-    codeDesc,
-    resultData,
+    result,
     setInput,
     input,
   } = useContext(Context);
-  
+
   const clickCard = (e) => {
     const card = e.currentTarget;
     const promptText = card.querySelector("p").textContent;
@@ -34,7 +32,7 @@ const Main = () => {
   return (
     <div className="main">
       <div className="nav">
-        <p onClick={()=>newChat()}>Zallo</p>
+        <p onClick={() => newChat()}>Zallo</p>
         <img src={assets.user_icon} alt="" />
       </div>
       <div className="main-container">
@@ -70,41 +68,58 @@ const Main = () => {
           <div className="result">
             {recentPrompt.map((result, index) => (
               <div className="result-title" key={index}>
-              <img src={assets.user_icon} alt="" />
-              <p dangerouslySetInnerHTML={{ __html: result }}></p>
+                <img src={assets.user_icon} alt="" />
+                <p dangerouslySetInnerHTML={{ __html: result }}></p>
               </div>
             ))}
             <div className="result-data">
               <div className="img">
-              <img src={assets.robot} alt="" />
+                <img src={assets.robot} alt="" />
               </div>
               <div className="result-here">
-              {loading ? (
-                <div className="loader"></div>
-              ) : codeDesc.length > 0 ? (
-                <>
-                  {codeDesc.map((item, index) => (
-                    <div key={index}>
-                      {item.description && ( // Conditional rendering of description
-                          <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
+                {loading ? (
+                  <div className="loader"></div>
+                ) : (
+                  <>
+                    {result.map((item, index) => (
+                      <div key={index}>
+                        {item.language && item.code ? (
+                          <>
+                            {item.description && ( // Conditional rendering of description
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html: item.description,
+                                }}
+                              ></p>
+                            )}
+                            <CopyToClipboard
+                              key={index}
+                              text={item.code}
+                              onCopy={() => handleCopy(result)}
+                            >
+                              <SyntaxHighlighter
+                                language={item.language}
+                                style={monokaiSublime}
+                              >
+                                {item.code}
+                              </SyntaxHighlighter>
+                            </CopyToClipboard>
+                          </>
+                        ) : (
+                          <>
+                            {item.description && ( // Conditional rendering of description
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html: item.description,
+                                }}
+                              ></p>
+                            )}
+                          </>
                         )}
-                      <CopyToClipboard key={index} text={item.code} onCopy={() => handleCopy(codeDesc)}>
-                          <SyntaxHighlighter language={item.language} style={monokaiSublime}>
-                            {item.code}
-                          </SyntaxHighlighter>
-                        </CopyToClipboard>
-                    </div>
-                  ))}
-                </>
-              ) : (
-                <>
-                {resultData.map((result, index) => (
-                  <div key={index}>
-                  <p dangerouslySetInnerHTML={{ __html: result }}></p>
-                  </div>
-                ))}
-                </>
-              )}
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
             </div>
           </div>
