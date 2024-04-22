@@ -9,31 +9,28 @@ const ContextProvider = (props) => {
   const [prevPrompts, setPrevPrompts] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [resultData, setResultData] = useState("");
+  const [resultData, setResultData] = useState([]);
   const [codeDesc, setDesc] = useState([]);
-  const [conversationHistory, setConversationHistory] = useState([]);
 
-  const delayText = (index, nextWord) => {
-    setTimeout(function () {
-      setResultData((prev) => [prev + nextWord]);
-    }, 25 * index);
-  };
   const newChat = () => {
     setLoading(false);
     setShowResults(false);
+    setPrevPrompts([]);
+    setRecentPrompt([]);
   };
   const onSent = async (prompt) => {
-    setResultData("");
+    setRecentPrompt([]);
+    setResultData([]);
     setDesc([]);
     setLoading(true);
     setShowResults(true);
     let response = "";
     if (prompt !== undefined) {
       response = await runChat(prompt);
-      setRecentPrompt(prompt);
+      setRecentPrompt((data) => [...data, prompt]);
     } else {
       setPrevPrompts((prev) => [...prev, input]);
-      setRecentPrompt(input);
+      setRecentPrompt((data) => [...data, input]);
       response = await runChat(input);
     }
     let responseArray = response.split("**");
@@ -57,17 +54,9 @@ const ContextProvider = (props) => {
       setDesc(codewithDesc);
     }
     let newResponses = newResponse.split("*").join("<br/>");
-    let newResponseArray = newResponses.split(" ");
-    for (let i = 0; i < newResponseArray.length; i++) {
-      const nextWord = newResponseArray[i];
-      delayText(i, nextWord + " ");
-    }
+    setResultData((data) => [...data, newResponses]);
     setLoading(false);
     setInput("");
-    setConversationHistory((prevHistory) => [
-      ...prevHistory,
-      { prompt: recentPrompt, resultData, codeDesc },
-    ]);
   };
 
   const contextValue = {
@@ -82,8 +71,7 @@ const ContextProvider = (props) => {
     loading,
     resultData,
     codeDesc,
-    newChat,
-    conversationHistory,
+    newChat
   };
 
   return (
@@ -102,7 +90,7 @@ function extractDescriptions(text) {
     const before = match[1]?.trim();
     const language = match[2]?.trim();
     const code = match[3];
-    const after = match[3]?.trim();
+    const after = match[4]?.trim();
     const description = before || after || "";
     descriptions.push({ description, language, code });
   });

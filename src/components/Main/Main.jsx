@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Main = () => {
+  
   const handleCopy = (codeDesc) => {
     toast.success("Code copied to clipboard!");
   };
@@ -24,6 +25,7 @@ const Main = () => {
     setInput,
     input,
   } = useContext(Context);
+  
   const clickCard = (e) => {
     const card = e.currentTarget;
     const promptText = card.querySelector("p").textContent;
@@ -66,10 +68,12 @@ const Main = () => {
           </>
         ) : (
           <div className="result">
-            <div className="result-title">
+            {recentPrompt.map((result, index) => (
+              <div className="result-title" key={index}>
               <img src={assets.user_icon} alt="" />
-              <p>{recentPrompt}</p>
-            </div>
+              <p dangerouslySetInnerHTML={{ __html: result }}></p>
+              </div>
+            ))}
             <div className="result-data">
               <div className="img">
               <img src={assets.robot} alt="" />
@@ -81,7 +85,9 @@ const Main = () => {
                 <>
                   {codeDesc.map((item, index) => (
                     <div key={index}>
-                      <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
+                      {item.description && ( // Conditional rendering of description
+                          <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
+                        )}
                       <CopyToClipboard key={index} text={item.code} onCopy={() => handleCopy(codeDesc)}>
                           <SyntaxHighlighter language={item.language} style={monokaiSublime}>
                             {item.code}
@@ -91,7 +97,13 @@ const Main = () => {
                   ))}
                 </>
               ) : (
-                <p dangerouslySetInnerHTML={{ __html: resultData }}></p>
+                <>
+                {resultData.map((result, index) => (
+                  <div key={index}>
+                  <p dangerouslySetInnerHTML={{ __html: result }}></p>
+                  </div>
+                ))}
+                </>
               )}
               </div>
             </div>
