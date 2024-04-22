@@ -10,15 +10,16 @@ const ContextProvider = (props) => {
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState([]); // Combined result state
-
+  const [promptsAndResults, setPromptsAndResults] = useState([]);
 
   const newChat = () => {
     setLoading(false);
     setShowResults(false);
     setPrevPrompts([]);
     setRecentPrompt([]);
+    setPromptsAndResults([]);
   };
-  const onSent = async (prompt) => {
+  const onSent = async (prompt, history = []) => {
     setRecentPrompt([]);
     setResult([]);
     setLoading(true);
@@ -30,7 +31,7 @@ const ContextProvider = (props) => {
     } else {
       setPrevPrompts((prev) => [...prev, input]);
       setRecentPrompt((data) => [...data, input]);
-      response = await runChat(input);
+      response = await runChat(input, history);
     }
     let responseArray = response.split("**");
     let newResponse = "";
@@ -66,7 +67,9 @@ const ContextProvider = (props) => {
     showResults,
     loading,
     result,
-    newChat
+    newChat,
+    promptsAndResults, 
+    setPromptsAndResults,
   };
 
   return (

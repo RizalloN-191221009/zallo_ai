@@ -7,10 +7,29 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/ge
   const MODEL_NAME = import.meta.env.VITE_MODEL_NAME;
   const API_KEY = import.meta.env.VITE_GEMINI_API;
   
-  async function runChat(prompt) {
+  async function runChat(prompt, history = []) {
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+    
+    
+    const chatHistory = history.map((item) => {
+      const parts = item.result.map((r) => {
+        if (r.language && r.code) {
+          return {
+            text: `\`\`\`${r.language}\n${r.code}\n\`\`\``, // Code block with language identifier
+          };
+        } else {
+          return { text: r.description }; // Text response
+        }
+      });
   
+      return {
+        prompt: item.prompt,
+        parts: parts,
+      };
+    });
+    
+    console.log(chatHistory);
     const generationConfig = {
       temperature: 0.9,
       topK: 1,
@@ -40,13 +59,11 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/ge
     const chat = model.startChat({
       generationConfig,
       safetySettings,
-      history: [
-      ],
+      history: chatHistory,
     });
   
     const result = await chat.sendMessage(prompt);
     const response = result.response;
-    console.log(response.text())
     return response.text();
   }
   

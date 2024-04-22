@@ -14,7 +14,6 @@ const Main = () => {
   const handleCopy = (result) => {
     toast.success("Code copied to clipboard!");
   };
-  const [promptsAndResults, setPromptsAndResults] = useState([]);
 
   const {
     newChat,
@@ -25,6 +24,8 @@ const Main = () => {
     result,
     setInput,
     input,
+    promptsAndResults, 
+    setPromptsAndResults
   } = useContext(Context);
 
   const clickCard = (e) => {
@@ -166,7 +167,7 @@ const Main = () => {
               {input ? (
                 <img
                   onClick={() => {
-                    onSent();
+                    onSent(undefined, promptsAndResults);
                   }}
                   src={assets.send_icon}
                   alt=""

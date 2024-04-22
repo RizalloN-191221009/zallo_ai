@@ -131,6 +131,8 @@
 }
 
 .result {
+  border-radius: 20px;
+  margin-bottom: 15px;
   color: whitesmoke;
   padding: 0px 5%;
   max-height: 70vh;
