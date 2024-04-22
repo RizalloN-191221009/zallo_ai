@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Main = () => {
-  const resultsEndRef = useRef(null); // Reference to the end of the results container
+  const resultsEndRef = useRef(null);
   const handleCopy = (result) => {
     toast.success("Code copied to clipboard!");
   };
@@ -35,19 +35,19 @@ const Main = () => {
   useEffect(() => {
     if (recentPrompt.length > 0 && result.length > 0) {
       const newEntry = { prompt: recentPrompt, result };
-      setPromptsAndResults([...promptsAndResults, newEntry]); // Add new entry to the beginning
+      setPromptsAndResults([...promptsAndResults, newEntry]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recentPrompt, result]);
   const scrollToBottom = () => {
-    resultsEndRef.current?.scrollIntoView({ behavior: "smooth" }); 
+    resultsEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-    if (showResults) { // Scroll only when results are shown
+    if (showResults) {
       scrollToBottom();
     }
-  }, [promptsAndResults, showResults]); // Scroll when results or showResults change
+  }, [promptsAndResults, showResults]);
   return (
     <div className="main">
       <div className="nav">
@@ -104,7 +104,7 @@ const Main = () => {
                           <div key={index}>
                             {item.language && item.code ? (
                               <>
-                                {item.description && ( // Conditional rendering of description
+                                {item.description && (
                                   <p
                                     dangerouslySetInnerHTML={{
                                       __html: item.description,
@@ -139,9 +139,9 @@ const Main = () => {
                         ))}
                       </div>
                     </div>
+                    <div ref={resultsEndRef} />
                   </React.Fragment>
                 ))}
-              <div ref={resultsEndRef} /> {/* Reference for scrolling */}
               </>
             )}
           </div>
