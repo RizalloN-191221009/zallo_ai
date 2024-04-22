@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 import "./Main.css";
@@ -10,9 +10,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Main = () => {
+  const resultsEndRef = useRef(null); // Reference to the end of the results container
   const handleCopy = (result) => {
     toast.success("Code copied to clipboard!");
   };
+  const [promptsAndResults, setPromptsAndResults] = useState([]);
+
   const {
     newChat,
     onSent,
@@ -29,6 +32,22 @@ const Main = () => {
     const promptText = card.querySelector("p").textContent;
     onSent(promptText);
   };
+  useEffect(() => {
+    if (recentPrompt.length > 0 && result.length > 0) {
+      const newEntry = { prompt: recentPrompt, result };
+      setPromptsAndResults([...promptsAndResults, newEntry]); // Add new entry to the beginning
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recentPrompt, result]);
+  const scrollToBottom = () => {
+    resultsEndRef.current?.scrollIntoView({ behavior: "smooth" }); 
+  };
+
+  useEffect(() => {
+    if (showResults) { // Scroll only when results are shown
+      scrollToBottom();
+    }
+  }, [promptsAndResults, showResults]); // Scroll when results or showResults change
   return (
     <div className="main">
       <div className="nav">
@@ -66,62 +85,65 @@ const Main = () => {
           </>
         ) : (
           <div className="result">
-            {recentPrompt.map((result, index) => (
-              <div className="result-title" key={index}>
-                <img src={assets.user_icon} alt="" />
-                <p dangerouslySetInnerHTML={{ __html: result }}></p>
-              </div>
-            ))}
-            <div className="result-data">
-              <div className="img">
-                <img src={assets.robot} alt="" />
-              </div>
-              <div className="result-here">
-                {loading ? (
-                  <div className="loader"></div>
-                ) : (
-                  <>
-                    {result.map((item, index) => (
-                      <div key={index}>
-                        {item.language && item.code ? (
-                          <>
-                            {item.description && ( // Conditional rendering of description
-                              <p
-                                dangerouslySetInnerHTML={{
-                                  __html: item.description,
-                                }}
-                              ></p>
-                            )}
-                            <CopyToClipboard
-                              key={index}
-                              text={item.code}
-                              onCopy={() => handleCopy(result)}
-                            >
-                              <SyntaxHighlighter
-                                language={item.language}
-                                style={monokaiSublime}
-                              >
-                                {item.code}
-                              </SyntaxHighlighter>
-                            </CopyToClipboard>
-                          </>
-                        ) : (
-                          <>
-                            {item.description && ( // Conditional rendering of description
-                              <p
-                                dangerouslySetInnerHTML={{
-                                  __html: item.description,
-                                }}
-                              ></p>
-                            )}
-                          </>
-                        )}
+            {loading ? (
+              <div className="loader"></div>
+            ) : (
+              <>
+                {promptsAndResults.map((item, index) => (
+                  <React.Fragment key={index}>
+                    <div className="result-title" key={index}>
+                      <img src={assets.user_icon} alt="" />
+                      <p dangerouslySetInnerHTML={{ __html: item.prompt }}></p>
+                    </div>
+                    <div className="result-data">
+                      <div className="img">
+                        <img src={assets.robot} alt="" />
                       </div>
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
+                      <div className="result-here">
+                        {item.result.map((item, index) => (
+                          <div key={index}>
+                            {item.language && item.code ? (
+                              <>
+                                {item.description && ( // Conditional rendering of description
+                                  <p
+                                    dangerouslySetInnerHTML={{
+                                      __html: item.description,
+                                    }}
+                                  ></p>
+                                )}
+                                <CopyToClipboard
+                                  key={index}
+                                  text={item.code}
+                                  onCopy={() => handleCopy(result)}
+                                >
+                                  <SyntaxHighlighter
+                                    language={item.language}
+                                    style={monokaiSublime}
+                                  >
+                                    {item.code}
+                                  </SyntaxHighlighter>
+                                </CopyToClipboard>
+                              </>
+                            ) : (
+                              <>
+                                {item.description && (
+                                  <p
+                                    dangerouslySetInnerHTML={{
+                                      __html: item.description,
+                                    }}
+                                  ></p>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </React.Fragment>
+                ))}
+              <div ref={resultsEndRef} /> {/* Reference for scrolling */}
+              </>
+            )}
           </div>
         )}
 
