@@ -167,7 +167,7 @@ const Main = () => {
               {input ? (
                 <img
                   onClick={() => {
-                    onSent(undefined, promptsAndResults);
+                    onSent();
                   }}
                   src={assets.send_icon}
                   alt=""
