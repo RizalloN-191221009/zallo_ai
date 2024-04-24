@@ -49,7 +49,6 @@ async function runChat(prompt) {
     safetySettings,
     history: chatHistory,
   });
-  // console.log(chat); // Use JSON.stringify for formatting
   const result = await chat.sendMessage(prompt);
   const response = result.response;
   const isDuplicate = chatHistory.some((entry) => {

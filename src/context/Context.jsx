@@ -9,7 +9,7 @@ const ContextProvider = (props) => {
   const [prevPrompts, setPrevPrompts] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState([]); // Combined result state
+  const [result, setResult] = useState([]);
   const [promptsAndResults, setPromptsAndResults] = useState([]);
 
   const newChat = () => {
@@ -42,16 +42,15 @@ const ContextProvider = (props) => {
         newResponse += "<b>" + responseArray[i] + "</b>";
       }
     }
-    // Matches CodeBlock work
     if (newResponse.includes("```")) {
       let newResponses = newResponse.split("*").join("<br/>");
       const descriptions = extractDescriptions(newResponses);
-      setResult(descriptions); // Set result with code and descriptions
-    }else {
+      setResult(descriptions);
+    } else {
       let newResponses = newResponse.split("*").join("<br/>");
-      setResult([{ description: newResponses, language: null, code: null }]); // Set result for non-code responses
+      setResult([{ description: newResponses, language: null, code: null }]);
     }
-    
+
     setLoading(false);
     setInput("");
   };
@@ -68,7 +67,7 @@ const ContextProvider = (props) => {
     loading,
     result,
     newChat,
-    promptsAndResults, 
+    promptsAndResults,
     setPromptsAndResults,
   };
 

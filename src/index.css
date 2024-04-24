@@ -6,6 +6,15 @@
   box-sizing: border-box;
   font-family: Outfit;
 }
+::-webkit-scrollbar {
+  width: 0.7rem;
+}
+::-webkit-scrollbar-thumb{
+  background-color: #D1C19B;
+}
+::-webkit-scrollbar-track{
+  background-color: #2E3E64;
+}
 #root{
   min-height: 100vh;
   display: flex;

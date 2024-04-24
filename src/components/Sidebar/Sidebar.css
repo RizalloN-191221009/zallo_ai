@@ -1,82 +1,82 @@
-.sidebar{
-    min-height: 100vh;
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #D1C19B;
-    padding: 25px 15px;
+.sidebar {
+  min-height: 100vh;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #d1c19b;
+  padding: 25px 15px;
 }
 
-.sidebar img{
-    width: 20px;
+.sidebar img {
+  width: 20px;
 }
 
-.sidebar .menu{
-    display: block;
-    margin-left: 10px;
-    cursor: pointer;
+.sidebar .menu {
+  display: block;
+  margin-left: 10px;
+  cursor: pointer;
 }
 
 .sidebar .new-chat {
-    margin-top: 50px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 15px;
-    background-color: #2E3E64;
-    border-radius: 50px;
-    font-size: 14px;
-    color: #EDE6D7;
-    cursor: pointer;
-    &:hover{
-        background-color: #1C253C;
-        transition: 0.3s ease-in-out;
-    }
+  margin-top: 50px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background-color: #2e3e64;
+  border-radius: 50px;
+  font-size: 14px;
+  color: #ede6d7;
+  cursor: pointer;
+  &:hover {
+    background-color: #1c253c;
+    transition: 0.3s ease-in-out;
+  }
 }
 
 .sidebar .recent {
-    display: flex;
-    flex-direction: column;
-    animation: 1s;
+  display: flex;
+  flex-direction: column;
+  animation: 1s;
 }
 
-.sidebar .recent-title{
-    color: #2E3E64;
-    margin-top: 30px;
-    margin-bottom: 20px;
+.sidebar .recent-title {
+  color: #2e3e64;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 
-.sidebar .recent-entry{
-    display:flex;
-    align-items: start;
-    gap: 10px;
-    padding: 10px;
-    padding-right: 40px;
-    border-radius: 50px;
-    color: #2E3E64;
-    cursor:pointer;
-    &:hover{
-        background-color: #9BABD1;
-        transition: 0.3s ease-in-out;
-    }
+.sidebar .recent-entry {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  padding: 10px;
+  padding-right: 40px;
+  border-radius: 50px;
+  color: #2e3e64;
+  cursor: pointer;
+  &:hover {
+    background-color: #9babd1;
+    transition: 0.3s ease-in-out;
+  }
 }
 
-.sidebar .bottom{
-    display:flex;
-    flex-direction: column;
+.sidebar .bottom {
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes fadeIn {
-    0%{
-      opacity: 0;
-    }
-    100%{
-      opacity: 1;
-    }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-@media (max-width:600px) {
-    .sidebar{
-        display: none;
-    }
+@media (max-width: 600px) {
+  .sidebar {
+    display: none;
+  }
 }

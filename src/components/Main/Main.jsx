@@ -24,8 +24,8 @@ const Main = () => {
     result,
     setInput,
     input,
-    promptsAndResults, 
-    setPromptsAndResults
+    promptsAndResults,
+    setPromptsAndResults,
   } = useContext(Context);
 
   const clickCard = (e) => {
@@ -93,8 +93,8 @@ const Main = () => {
                 {promptsAndResults.map((item, index) => (
                   <React.Fragment key={index}>
                     <div className="result-title" key={index}>
-                      <img src={assets.user_icon} alt="" />
                       <p dangerouslySetInnerHTML={{ __html: item.prompt }}></p>
+                      <img src={assets.user_icon} alt="" />
                     </div>
                     <div className="result-data">
                       <div className="img">
@@ -102,7 +102,7 @@ const Main = () => {
                       </div>
                       <div className="result-here">
                         {item.result.map((item, index) => (
-                          <div key={index}>
+                          <div className="code-result" key={index}>
                             {item.language && item.code ? (
                               <>
                                 {item.description && (
@@ -117,12 +117,15 @@ const Main = () => {
                                   text={item.code}
                                   onCopy={() => handleCopy(result)}
                                 >
-                                  <SyntaxHighlighter
-                                    language={item.language}
-                                    style={monokaiSublime}
-                                  >
-                                    {item.code}
-                                  </SyntaxHighlighter>
+                                  <div style={{ width: "100%" }}>
+                                    <SyntaxHighlighter
+                                      language={item.language}
+                                      style={monokaiSublime}
+                                      showLineNumbers
+                                    >
+                                      {item.code}
+                                    </SyntaxHighlighter>
+                                  </div>
                                 </CopyToClipboard>
                               </>
                             ) : (
@@ -175,10 +178,6 @@ const Main = () => {
               ) : null}
             </div>
           </div>
-          <p className="bottom-info">
-            Zallo may display inaccurate info, including about people, so
-            double-check its response.
-          </p>
         </div>
       </div>
     </div>
