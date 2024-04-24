@@ -66,7 +66,6 @@ async function runChat(prompt) {
     { role: "user", parts: [{ text: prompt }] }, 
     { role: "model", parts: [{ text: response.text() }] }
   ]}
-  console.log(JSON.stringify(chat, null, 2));
   return response.text();
 }
 export default runChat;
