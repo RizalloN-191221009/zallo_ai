@@ -39,9 +39,10 @@ const ContextProvider = (props) => {
       if (i === 0 || i % 2 !== 1) {
         newResponse += responseArray[i];
       } else {
-        newResponse += "<b>" + responseArray[i] + "</b>";
+        newResponse += "<br/><b>" + responseArray[i] + "</b>";
       }
     }
+    
     if (newResponse.includes("```")) {
       let newResponses = newResponse.split("*").join("<br/>");
       const descriptions = extractDescriptions(newResponses);

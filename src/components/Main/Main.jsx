@@ -27,6 +27,14 @@ const Main = () => {
     promptsAndResults,
     setPromptsAndResults,
   } = useContext(Context);
+  const filterDescription = (description) => {
+    if (!description) return "";
+    const regex = /<\/?(?!(b\b|br\b|\/b\b))[^>]*?>/g;
+    return description.replace(regex, (match) => {
+      return match.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Replace < and >
+    });
+
+  };
 
   const clickCard = (e) => {
     const card = e.currentTarget;
@@ -108,7 +116,7 @@ const Main = () => {
                                 {item.description && (
                                   <p
                                     dangerouslySetInnerHTML={{
-                                      __html: item.description,
+                                      __html: filterDescription(item.description),
                                     }}
                                   ></p>
                                 )}
@@ -133,7 +141,7 @@ const Main = () => {
                                 {item.description && (
                                   <p
                                     dangerouslySetInnerHTML={{
-                                      __html: item.description,
+                                      __html: filterDescription(item.description),
                                     }}
                                   ></p>
                                 )}

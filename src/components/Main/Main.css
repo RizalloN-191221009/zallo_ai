@@ -170,19 +170,19 @@
     width: 6.5%;
   }
   .result-here {
-    width: 90%;
+    width: 100%;
     display: flex;
-    gap: 5px;
+    flex-direction: column;
+    gap: 15px;
     flex-direction: column;
     .code-result {
-      display: flex;
       width: 100%;
       padding: 15px;
       border-radius: 10px;
       background-color: #d1c19b;
     }
     p {
-      border-radius: 10px;
+      border-radius: 1px;
       color: #2e3e64;
       background-color: #d1c19b;
       padding: 15px 15px;
@@ -217,6 +217,7 @@
   transform: rotate3d(90, 90, 0, 180deg);
   border-color: #ff3d00;
 }
+
 .main-bottom {
   position: fixed;
   bottom: 10;
