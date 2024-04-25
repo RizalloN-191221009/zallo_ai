@@ -14,7 +14,17 @@ const Main = () => {
   const handleCopy = (result) => {
     toast.success("Code copied to clipboard!");
   };
+  const currentTime = new Date();
+  const hours = currentTime.getHours();
+  let greeting = "";
 
+  if (hours < 12) {
+    greeting = "Morning";
+  } else if (hours < 17) {
+    greeting = "Afternoon";
+  } else {
+    greeting = "Evening";
+  }
   const {
     newChat,
     onSent,
@@ -68,7 +78,7 @@ const Main = () => {
           <>
             <div className="greet">
               <p>
-                <span>Greetings, There.</span>
+                <span>Hey, Good {greeting}.</span>
               </p>
               <p>How can i help you today?</p>
             </div>

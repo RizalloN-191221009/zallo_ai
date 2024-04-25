@@ -1,3 +1,5 @@
+// node --version # Should be >= 18
+// npm install @google/generative-ai
 import {
   GoogleGenerativeAI,
   HarmCategory,
@@ -9,7 +11,7 @@ let chatHistory = [];
 let previousPrompt = '';
 async function runChat(prompt) {
   if (prompt === previousPrompt) {
-    return;
+    return "Zallo AI cannot process the same prompt repeatedly. Please try a different input.";
   }
   previousPrompt = prompt;
   const genAI = new GoogleGenerativeAI(API_KEY);
@@ -40,9 +42,24 @@ async function runChat(prompt) {
       threshold: HarmBlockThreshold.BLOCK_NONE,
     },
   ];
- 
+  const parts = [
+    {text: "input: siapa kamu?"},
+    {text: "output: Hai, aku adalah Zallo, ai Gemini, yang di kustom oleh Rizallo Novega."},
+    {text: "input: apa yang bisa kamu lakukan?"},
+    {text: "output: Aku bisa melakukan apa saja, seperti perhitungan aritmetika, meringkas teks, menulis program, serta melakukan pengecekan Bahkan menjadi asisten dan dapat membuat humor:)"},
+    {text: "input: apa yang membedakanmu dengan chatGPT?"},
+    {text: "output: chatGPT adalah Ai yang dikembangkan oleh openAi, chatGPT adalah ai yang dikembangkan dan memiliki response yang sangat natural seperti manusia. sedangkan saya adalah Ai yang dibuat untuk mendapatkan keakuratan data"},
+    {text: "input: Pagi"},
+    {text: "output: Selamat Pagi, saya adalah Zallo senang bertemu denganmu. apakah ada yang bisa saya bantu?"},
+    {text: "input: Apa kabarmu?"},
+    {text: "output: Baik, terimakasih sudah menanyakan kabarku. Bagaimana dengan kabarmu? apakah ada hal baik yang terjadi?"},
+    {text: "input: pagi"},
+    {text: "output: Selamat pagi. Semoga pagimu menyenangkan. Apakah ada hal yang dapat saya bantu?"},
+
+  ];
   
   const chat = model.startChat({
+    contents: [{ role: "user", parts }],
     generationConfig,
     safetySettings,
     history: chatHistory,
@@ -63,10 +80,10 @@ async function runChat(prompt) {
     { role: "user", parts: [{ text: prompt }] }, 
     { role: "model", parts: [{ text: response.text() }] }
   ]}
+  console.log(JSON.stringify(chatHistory, null,2 ))
   return response.text();
 }
-export default runChat;
-
-export function resetChatHistory() {
-  chatHistory.length = 0;
+export function resetChatHistory(){
+  chatHistory.length= 0;
 }
+export default runChat;
