@@ -1,5 +1,3 @@
-// node --version # Should be >= 18
-// npm install @google/generative-ai
 import {
   GoogleGenerativeAI,
   HarmCategory,
@@ -65,7 +63,10 @@ async function runChat(prompt) {
     { role: "user", parts: [{ text: prompt }] }, 
     { role: "model", parts: [{ text: response.text() }] }
   ]}
-  console.log(response.text());
   return response.text();
 }
 export default runChat;
+
+export function resetChatHistory() {
+  chatHistory.length = 0;
+}

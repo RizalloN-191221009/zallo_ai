@@ -33,7 +33,6 @@ const Main = () => {
     return description.replace(regex, (match) => {
       return match.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Replace < and >
     });
-
   };
 
   const clickCard = (e) => {
@@ -95,7 +94,9 @@ const Main = () => {
         ) : (
           <div className="result">
             {loading ? (
-              <div className="loader"></div>
+              <div className="loader-overlay">
+                <div className="loader"></div>
+              </div>
             ) : (
               <>
                 {promptsAndResults.map((item, index) => (
@@ -116,7 +117,9 @@ const Main = () => {
                                 {item.description && (
                                   <p
                                     dangerouslySetInnerHTML={{
-                                      __html: filterDescription(item.description),
+                                      __html: filterDescription(
+                                        item.description
+                                      ),
                                     }}
                                   ></p>
                                 )}
@@ -141,7 +144,9 @@ const Main = () => {
                                 {item.description && (
                                   <p
                                     dangerouslySetInnerHTML={{
-                                      __html: filterDescription(item.description),
+                                      __html: filterDescription(
+                                        item.description
+                                      ),
                                     }}
                                   ></p>
                                 )}

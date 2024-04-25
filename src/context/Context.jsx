@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import runChat from "../config/Zallo";
+import runChat, {resetChatHistory } from "../config/Zallo";
 import PropTypes from "prop-types";
 
 export const Context = createContext();
@@ -18,6 +18,7 @@ const ContextProvider = (props) => {
     setPrevPrompts([]);
     setRecentPrompt([]);
     setPromptsAndResults([]);
+    resetChatHistory();
   };
   const onSent = async (prompt) => {
     setRecentPrompt([]);
@@ -39,7 +40,7 @@ const ContextProvider = (props) => {
       if (i === 0 || i % 2 !== 1) {
         newResponse += responseArray[i];
       } else {
-        newResponse += "<br/><b>" + responseArray[i] + "</b>";
+        newResponse += "<b>" + responseArray[i] + "</b>";
       }
     }
     
